@@ -6,4 +6,4 @@ logs/
 controller/
 routes/
 models/
-package-lock.jsond
+package-lock.json
