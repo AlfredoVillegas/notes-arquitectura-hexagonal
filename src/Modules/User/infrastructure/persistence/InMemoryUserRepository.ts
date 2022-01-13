@@ -27,6 +27,7 @@ export class InMemoryUserRepository implements UserRepository {
   }
 
   async userEmailExist(email: UserEmail): Promise<boolean> {
+    // Implementar metodo Fake
     return false;
   }
 }
