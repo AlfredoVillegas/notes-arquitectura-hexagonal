@@ -15,23 +15,15 @@ export type Params = {
 };
 
 export class UserRegister {
-  //private hasher: Hasher;
   private repository: UserRepository;
   private hashUserPasswordService: HashUserPassword;
 
   constructor(hashing: Hashing, repository: UserRepository) {
-    //this.hasher = hasher;
     this.repository = repository;
     this.hashUserPasswordService = new HashUserPassword(hashing);
   }
 
   async run({ id, name, email, password }: Params): Promise<void> {
-    /*const passwordHashed = this.hasher.hashPassword(password);
-
-    const userPassword = UserPassword.validateForCreate(password, passwordHashed); */
-
-    //const hashUserPasswordService = new HashUserPassword(this.hasher);
-
     const userEmail: UserEmail = new UserEmail(email);
 
     if (await this.repository.userEmailExist(userEmail)) {
