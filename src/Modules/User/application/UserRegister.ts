@@ -1,4 +1,3 @@
-import e from 'cors';
 import { Hashing } from '../domain/Hashing';
 import { HashUserPassword } from '../domain/HashUserPassword';
 import { User } from '../domain/User';
