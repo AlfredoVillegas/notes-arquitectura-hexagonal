@@ -1,3 +1,4 @@
+import e from 'cors';
 import { Hashing } from '../domain/Hashing';
 import { HashUserPassword } from '../domain/HashUserPassword';
 import { User } from '../domain/User';
@@ -32,11 +33,18 @@ export class UserRegister {
 
     //const hashUserPasswordService = new HashUserPassword(this.hasher);
 
+    const userEmail: UserEmail = new UserEmail(email);
+
+    if (await this.repository.userEmailExist(userEmail)) {
+      throw new Error(`this email: ${email} exists`);
+    }
+
     const userPassword = await this.hashUserPasswordService.run(new UserPassword(password));
 
-    const user = User.create(new UserId(id), new UserName(name), new UserEmail(email), userPassword);
+    const user = User.create(new UserId(id), new UserName(name), userEmail, userPassword);
 
     await this.repository.save(user);
+
     console.log('enviar email de confirmacion');
     console.log(`User Creado publicar evento user persistido: ${user.email.value}`);
   }

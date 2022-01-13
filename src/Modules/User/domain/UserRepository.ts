@@ -7,5 +7,5 @@ export interface UserRepository {
 
   search(id: UserId): Promise<User | null>;
 
-  userEmailExist(email: UserEmail): boolean;
+  userEmailExist(email: UserEmail): Promise<boolean>;
 }
