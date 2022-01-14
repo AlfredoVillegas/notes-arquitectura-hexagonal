@@ -26,6 +26,8 @@ export class InMemoryUserRepository implements UserRepository {
     return userFind;
   }
 
+  async delete(id: UserId): Promise<void> {}
+
   async userEmailExist(email: UserEmail): Promise<boolean> {
     // Implementar metodo Fake
     return false;
