@@ -10,4 +10,11 @@ export abstract class Entity {
   addDomainEvent(event: DomainEvent): void {
     this.domainEvents.push(event);
   }
+
+  extractDomainEvents(): Array<DomainEvent> {
+    const domainEvents = this.domainEvents.slice();
+    this.domainEvents = [];
+
+    return domainEvents;
+  }
 }

@@ -8,16 +8,14 @@ export class UserPassword {
 
   /*static validateForCreate(value: string, valueHashed: string): UserPassword {
     if (value.length < 8) {
-      console.log('password debe contener almenos 8 caracteres');
-      throw new Error('Caracteres Invalidos');
+      throw new Error('password debe contener almenos 8 caracteres');
     }
-    return new UserPassword(valueHashed);
+    return new UserPassword(valueHashed)
   }*/
 
   public validateLengthIsHigher8(value: string) {
     if (value.length < 8) {
-      console.log('password debe contener almenos 8 caracteres');
-      throw new Error('Caracteres Invalidos');
+      throw new Error('password debe contener almenos 8 caracteres');
     }
   }
 }

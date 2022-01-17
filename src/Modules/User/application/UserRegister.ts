@@ -24,7 +24,7 @@ export class UserRegister {
   }
 
   async run({ id, name, email, password }: Params): Promise<void> {
-    const userEmail: UserEmail = new UserEmail(email);
+    const userEmail = new UserEmail(email);
 
     if (await this.repository.userEmailExist(userEmail)) {
       throw new Error(`this email: ${email} exists`);
@@ -36,7 +36,7 @@ export class UserRegister {
 
     await this.repository.save(user);
 
-    console.log('enviar email de confirmacion');
-    console.log(`User Creado publicar evento user persistido: ${user.email.value}`);
+    console.log('publicar eventos');
+    console.log(user.extractDomainEvents());
   }
 }

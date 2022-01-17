@@ -5,8 +5,8 @@ export class UserRegisterDomainEvent extends DomainEvent {
   readonly name: string;
   readonly email: string;
 
-  constructor(agregateId: string, email: string, name: string, eventId?: string, ocurredOn?: Date) {
-    super(UserRegisterDomainEvent.EVENT_NAME, agregateId, eventId, ocurredOn);
+  constructor(aggregateId: string, email: string, name: string, eventId?: string, ocurredOn?: Date) {
+    super(UserRegisterDomainEvent.EVENT_NAME, aggregateId, eventId, ocurredOn);
     this.name = name;
     this.email = email;
   }
