@@ -1,3 +1,4 @@
+import { EventBus } from '../../Shared/domain/EventBus';
 import { Hashing } from '../domain/Hashing';
 import { HashUserPassword } from '../domain/HashUserPassword';
 import { User } from '../domain/User';
@@ -17,10 +18,12 @@ export type Params = {
 export class UserRegister {
   private repository: UserRepository;
   private hashUserPasswordService: HashUserPassword;
+  private eventBus: EventBus;
 
-  constructor(hashing: Hashing, repository: UserRepository) {
+  constructor(hashing: Hashing, repository: UserRepository, eventBus: EventBus) {
     this.repository = repository;
     this.hashUserPasswordService = new HashUserPassword(hashing);
+    this.eventBus = eventBus;
   }
 
   async run({ id, name, email, password }: Params): Promise<void> {
@@ -37,6 +40,9 @@ export class UserRegister {
     await this.repository.save(user);
 
     console.log('publicar eventos');
-    console.log(user.extractDomainEvents());
+    //console.log(user.extractDomainEvents());
+    const DomainEvent = user.extractDomainEvents();
+
+    this.eventBus.publish(DomainEvent[0].eventName, 'User');
   }
 }

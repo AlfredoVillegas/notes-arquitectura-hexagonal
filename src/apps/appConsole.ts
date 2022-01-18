@@ -7,15 +7,23 @@ import { UserRepository } from '../Modules/User/domain/UserRepository';
 import { BcryptHasher } from '../Modules/User/infrastructure/BcryptHashing';
 //import { HasherInMemory } from '../Modules/User/infrastructure/HasherInMemory';
 import { InMemoryUserRepository } from '../Modules/User/infrastructure/persistence/InMemoryUserRepository';
+import { EventBus } from '../Modules/Shared/domain/EventBus';
+import { ConcretEventBus } from '../Modules/Shared/domain/ConcretEventBus';
+import { exampleEvent } from '../Modules/expample/exampleEvent';
 
 class start {
   private repositoryInMemory: UserRepository = new InMemoryUserRepository();
   private hasherBcrypt: Hashing = new BcryptHasher();
+  private eventBusFake: EventBus = new ConcretEventBus();
   constructor() {
     this.run();
   }
   async run() {
-    let register = new UserRegister(this.hasherBcrypt, this.repositoryInMemory);
+    // Preparando EventBus en Memoria
+
+    this.eventBusFake.addSubscribe('user.register', new exampleEvent());
+
+    let register = new UserRegister(this.hasherBcrypt, this.repositoryInMemory, this.eventBusFake);
     const idid = UserId.random();
     const id = new UserId(idid.value);
     const user: Params = {
@@ -25,7 +33,7 @@ class start {
       password: '12345678'
     };
 
-    console.log('creaaaarrr repository');
+    console.log('creaaaarrr En repository');
     try {
       await register.run(user);
     } catch (error) {
