@@ -1,34 +1,41 @@
+import e from 'cors';
 import { textChangeRangeIsUnchanged } from 'typescript';
+import { DomainEvent } from './DomainEvent';
 import { EventBus } from './EventBus';
 import { ReceiverEvent } from './ReceiverEvent';
 
 export class ConcretEventBus implements EventBus {
-  private receivers: { [key: string]: ReceiverEvent[] };
+  private receiversMaps: { [key: string]: ReceiverEvent[] };
 
   constructor(public triesCount: number = 3) {
-    this.receivers = {};
+    this.receiversMaps = {};
   }
 
   public addSubscribe(topic: string, receiver: ReceiverEvent): void {
-    if (!this.receivers[topic]) {
-      this.receivers[topic] = [];
+    if (!this.receiversMaps[topic]) {
+      this.receiversMaps[topic] = [];
     }
-    this.receivers[topic].push(receiver);
+    this.receiversMaps[topic].push(receiver);
   }
   public unsubscribe(topic: string, receiver: ReceiverEvent): void {
-    if (this.receivers[topic]) {
-      this.receivers[topic] = this.receivers[topic].filter(item => item !== receiver);
+    if (this.receiversMaps[topic]) {
+      this.receiversMaps[topic] = this.receiversMaps[topic].filter(item => item !== receiver);
     }
   }
 
-  public async publish(topic: string, subject: string): Promise<void> {
-    const receivers = this.getTopicReceivers(topic);
-    receivers.map(receiver => receiver.receive(topic, subject));
+  public async publish(events: DomainEvent[]): Promise<void> {
+    for (let event of events) {
+      let receivers: ReceiverEvent[] = this.getTopicReceivers(event.eventName);
+
+      receivers.map(receiver => receiver.receive(event.eventName, event.aggregateId));
+    }
+
+    //receivers.map(receiver => receiver.receive('22', subject));
   }
 
   private getTopicReceivers(topic: string): ReceiverEvent[] {
-    if (this.receivers[topic]) {
-      return this.receivers[topic];
+    if (this.receiversMaps[topic]) {
+      return this.receiversMaps[topic];
     } else {
       return [];
     }
