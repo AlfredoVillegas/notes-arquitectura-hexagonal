@@ -39,8 +39,6 @@ export class UserRegister {
 
     await this.repository.save(user);
 
-    console.log('publicar eventos');
-
-    this.eventBus.publish(user.extractDomainEvents());
+    await this.eventBus.publish(user.extractDomainEvents());
   }
 }
