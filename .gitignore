@@ -7,3 +7,5 @@ controller/
 routes/
 models/
 package-lock.json
+prueba.ts
+prueba.js

@@ -1,14 +1,14 @@
 import { UserRegister, Params } from '../Modules/User/application/UserRegister';
 import { UserFinderById } from '../Modules/User/application/UserFinderById';
 import { Hashing } from '../Modules/User/domain/Hashing';
-import { User } from '../Modules/User/domain/User';
+
 import { UserId } from '../Modules/User/domain/UserId';
 import { UserRepository } from '../Modules/User/domain/UserRepository';
 import { BcryptHasher } from '../Modules/User/infrastructure/BcryptHashing';
-//import { HasherInMemory } from '../Modules/User/infrastructure/HasherInMemory';
+
 import { InMemoryUserRepository } from '../Modules/User/infrastructure/persistence/InMemoryUserRepository';
 import { EventBus } from '../Modules/Shared/domain/EventBus';
-import { ConcretEventBus } from '../Modules/Shared/domain/ConcretEventBus';
+import { ConcretEventBus } from '../Modules/Shared/infrastructure/EventBus/ConcretEventBus';
 import { exampleEvent } from '../Modules/expample/exampleEvent';
 
 class start {
@@ -21,7 +21,7 @@ class start {
   async run() {
     // Preparando EventBus en Memoria
 
-    this.eventBusFake.addSubscribe('user.register', new exampleEvent());
+    this.eventBusFake.addSubscribe(new exampleEvent());
 
     let register = new UserRegister(this.hasherBcrypt, this.repositoryInMemory, this.eventBusFake);
     const idid = UserId.random();
