@@ -3,18 +3,18 @@ import { EventBus } from '../../domain/EventBus';
 import { DomainEventReceiver } from '../../domain/DomainEventReceiver';
 
 export class ConcretEventBus implements EventBus {
-  private receiversMaps: Map<string, DomainEventReceiver[]>;
+  private receiversMaps: Map<string, DomainEventReceiver<DomainEvent>[]>;
 
   constructor(public triesCount: number = 3) {
     this.receiversMaps = new Map();
   }
 
-  public addSubscribe(receiver: DomainEventReceiver): void {
+  public addSubscribe(receiver: DomainEventReceiver<DomainEvent>): void {
     const eventsNames = receiver.susbcribedTo();
     eventsNames.map(eventName => this.subscribe(eventName, receiver));
   }
 
-  private subscribe(eventName: string, receiver: DomainEventReceiver): void {
+  private subscribe(eventName: string, receiver: DomainEventReceiver<DomainEvent>): void {
     const eventsRegistered = this.receiversMaps.get(eventName);
     if (eventsRegistered) {
       eventsRegistered.push(receiver);
@@ -24,7 +24,7 @@ export class ConcretEventBus implements EventBus {
     }
   }
 
-  public unsubscribe(receiver: DomainEventReceiver) {
+  public unsubscribe(receiver: DomainEventReceiver<DomainEvent>) {
     const eventsNames = receiver.susbcribedTo();
 
     for (let eventName of eventsNames) {

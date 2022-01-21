@@ -1,7 +1,7 @@
 import { DomainEvent } from './DomainEvent';
 import { DomainEventNameType } from './DomainEventNameType';
 
-export interface DomainEventReceiver {
-  receive(domainEvent: DomainEvent): void;
+export interface DomainEventReceiver<T extends DomainEvent> {
+  receive(domainEvent: T): void;
   susbcribedTo(): DomainEventNameType[];
 }

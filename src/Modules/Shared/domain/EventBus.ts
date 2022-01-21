@@ -2,7 +2,7 @@ import { DomainEvent } from './DomainEvent';
 import { DomainEventReceiver } from './DomainEventReceiver';
 
 export interface EventBus {
-  addSubscribe(receiver: DomainEventReceiver): void;
-  unsubscribe(receiver: DomainEventReceiver): void;
+  addSubscribe(receiver: DomainEventReceiver<DomainEvent>): void;
+  unsubscribe(receiver: DomainEventReceiver<DomainEvent>): void;
   publish(events: DomainEvent[]): Promise<void>;
 }

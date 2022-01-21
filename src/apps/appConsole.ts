@@ -9,7 +9,10 @@ import { BcryptHasher } from '../Modules/User/infrastructure/BcryptHashing';
 import { InMemoryUserRepository } from '../Modules/User/infrastructure/persistence/InMemoryUserRepository';
 import { EventBus } from '../Modules/Shared/domain/EventBus';
 import { ConcretEventBus } from '../Modules/Shared/infrastructure/EventBus/ConcretEventBus';
-import { exampleEvent } from '../Modules/expample/exampleEvent';
+import { exampleEvent } from '../Modules/Notifications/exampleEvent';
+import { SendWelcomeEmailOnUserRegistered } from '../Modules/Notifications/application/SendWelcomeEmailOnUserRegistered';
+import { SendWelcomeEmail } from '../Modules/Notifications/application/SendWelcomeEmail';
+import { FakeEmailSender } from '../Modules/Notifications/application/FakeEmailSender';
 
 class start {
   private repositoryInMemory: UserRepository = new InMemoryUserRepository();
@@ -22,6 +25,7 @@ class start {
     // Preparando EventBus en Memoria
 
     this.eventBusFake.addSubscribe(new exampleEvent());
+    this.eventBusFake.addSubscribe(new SendWelcomeEmailOnUserRegistered(new SendWelcomeEmail(new FakeEmailSender())));
 
     let register = new UserRegister(this.hasherBcrypt, this.repositoryInMemory, this.eventBusFake);
     const idid = UserId.random();
