@@ -8,12 +8,12 @@ export class SendWelcomeEmail {
     this.emailSender = emailSender;
   }
 
-  async run(emailTo: string, emailFrom: string): Promise<void> {
+  async run(emailTo: string, emailFrom: string, userName: string): Promise<void> {
     const params = {
       emailTo: new EmailAddres(emailTo),
       emailFrom: new EmailAddres(emailFrom),
       subject: 'Welcome',
-      body: 'Welcome to whis word , next : ...'
+      body: `hello ${userName}, Welcome to whis word , next : ...`
     };
     const email = new Email(params.emailTo, params.emailFrom, params.subject, params.body);
 

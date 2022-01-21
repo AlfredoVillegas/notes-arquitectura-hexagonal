@@ -7,16 +7,15 @@ export class InMemoryUserRepository implements UserRepository {
   private Users: User[] = [];
 
   async save(user: User): Promise<void> {
+    /*const exist =
+    if (await this.search(user.id)) {
+      
+    }*/
     this.Users.push(user);
   }
 
   async search(id: UserId): Promise<User | null> {
     let userFind: User | null = null;
-
-    /* let userFinder = this.Users.find(element => element.password.value === id.value);
-    if (userFinder != undefined) {
-      userFind = userFinder;
-    }*/
 
     for (let user of this.Users) {
       if (user.id.value === id.value) {

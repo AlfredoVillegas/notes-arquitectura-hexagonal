@@ -12,7 +12,7 @@ import { ConcretEventBus } from '../Modules/Shared/infrastructure/EventBus/Concr
 import { exampleEvent } from '../Modules/Notifications/exampleEvent';
 import { SendWelcomeEmailOnUserRegistered } from '../Modules/Notifications/application/SendWelcomeEmailOnUserRegistered';
 import { SendWelcomeEmail } from '../Modules/Notifications/application/SendWelcomeEmail';
-import { FakeEmailSender } from '../Modules/Notifications/application/FakeEmailSender';
+import { FakeEmailSender } from '../Modules/Notifications/infrastructure/FakeEmailSender';
 
 class start {
   private repositoryInMemory: UserRepository = new InMemoryUserRepository();
@@ -33,7 +33,7 @@ class start {
     const user: Params = {
       id: idid.value,
       name: 'Alf Ville',
-      email: 'alfreddo444@hotmail.com',
+      email: 'alfreddo444hotmail.com',
       password: '12345678'
     };
 

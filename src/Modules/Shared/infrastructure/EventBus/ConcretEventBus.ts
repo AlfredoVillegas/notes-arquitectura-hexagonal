@@ -5,7 +5,7 @@ import { DomainEventReceiver } from '../../domain/DomainEventReceiver';
 export class ConcretEventBus implements EventBus {
   private receiversMaps: Map<string, DomainEventReceiver<DomainEvent>[]>;
 
-  constructor(public triesCount: number = 3) {
+  constructor() {
     this.receiversMaps = new Map();
   }
 
