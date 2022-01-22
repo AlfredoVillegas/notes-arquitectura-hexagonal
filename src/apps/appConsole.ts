@@ -13,6 +13,10 @@ import { exampleEvent } from '../Modules/Notifications/exampleEvent';
 import { SendWelcomeEmailOnUserRegistered } from '../Modules/Notifications/application/SendWelcomeEmailOnUserRegistered';
 import { SendWelcomeEmail } from '../Modules/Notifications/application/SendWelcomeEmail';
 import { FakeEmailSender } from '../Modules/Notifications/infrastructure/FakeEmailSender';
+import { IncrementTotalNotesCreatedOnNoteCreated } from '../Modules/User/application/TotalNotesCreatedIncrement/IncrementTotalNotesCreatedOnNoteCreated';
+import { TotalNotesCreatedIncrementer } from '../Modules/User/application/TotalNotesCreatedIncrement/TotalNotesCreatedIncrementer';
+import { NoteCreator } from '../Modules/Notes/application/NoteCreator';
+import { FakeNoteRepository } from '../Modules/Notes/infrastructure/fakeNoteRepository';
 
 class start {
   private repositoryInMemory: UserRepository = new InMemoryUserRepository();
@@ -26,6 +30,9 @@ class start {
 
     this.eventBusFake.addSubscribe(new exampleEvent());
     this.eventBusFake.addSubscribe(new SendWelcomeEmailOnUserRegistered(new SendWelcomeEmail(new FakeEmailSender())));
+    this.eventBusFake.addSubscribe(
+      new IncrementTotalNotesCreatedOnNoteCreated(new TotalNotesCreatedIncrementer(this.repositoryInMemory))
+    );
 
     let register = new UserRegister(this.hasherBcrypt, this.repositoryInMemory, this.eventBusFake);
     const idid = UserId.random();
@@ -43,12 +50,17 @@ class start {
     } catch (error) {
       return console.log('Capturando exepcion: ' + error);
     }
-
     let finder = new UserFinderById(this.repositoryInMemory);
     console.log('buscarrrrrrrr repository');
     let result = await finder.run(id);
     console.log(result);
-    console.log('finalllll');
+
+    let noteCreator = new NoteCreator(new FakeNoteRepository(), this.eventBusFake);
+    await noteCreator.run({ body: 'Esta es la nota', title: 'titulo de nota', userCreator: result.id.value });
+
+    console.log(await finder.run(result.id));
+
+    console.log('finalll');
   }
 }
 

@@ -25,7 +25,7 @@ export class NoteCreator {
     const note = Note.create(userCreatorId, new NoteBody(body), new NoteTitle(title));
 
     await this.repository.save(note);
-
+    console.log('evento pulicado. nota creada');
     await this.eventBus.publish(note.extractDomainEvents());
   }
 }

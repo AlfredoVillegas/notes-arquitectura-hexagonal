@@ -9,11 +9,11 @@ export class UserFinderById {
     this.repository = repository;
   }
 
-  async run(id: UserId): Promise<User | null> {
+  async run(id: UserId): Promise<User> {
     const user = await this.repository.search(id);
 
-    if (user) {
-      console.log(`User conseguido: ${user.email.value} , is active : ${user.isActive}`);
+    if (!user) {
+      throw new Error(`this user whit id: ${id.value} not exists`);
     }
 
     return user;

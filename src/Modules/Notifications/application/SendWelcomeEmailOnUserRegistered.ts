@@ -10,6 +10,6 @@ export class SendWelcomeEmailOnUserRegistered implements DomainEventReceiver<Use
     this.sendWelcomeEmail.run(domainEvent.email, 'example@empresa.com', domainEvent.name);
   }
   susbcribedTo(): DomainEventNameType[] {
-    return ['user.register'];
+    return [UserRegisterDomainEvent.EVENT_NAME];
   }
 }

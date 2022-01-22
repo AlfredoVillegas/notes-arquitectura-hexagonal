@@ -1,4 +1,4 @@
-export class UserNotesCreated {
+export class UserTotalNotesCreated {
   private value: number;
   constructor(notesCreated: number) {
     this.value = notesCreated;
