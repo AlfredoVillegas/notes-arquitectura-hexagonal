@@ -1,4 +1,5 @@
 import { EventBus } from '../../Shared/domain/EventBus';
+import { UserEmailAlreadyExists } from '../domain/Errors';
 import { Hashing } from '../domain/Hashing';
 import { HashUserPassword } from '../domain/HashUserPassword';
 import { User } from '../domain/User';
@@ -30,7 +31,7 @@ export class UserRegister {
     const userEmail = new UserEmail(email);
 
     if (await this.repository.userEmailExist(userEmail)) {
-      throw new Error(`this email: ${email} exists`);
+      throw new UserEmailAlreadyExists(userEmail.value);
     }
 
     const userPassword = await this.hashUserPasswordService.run(new UserPassword(password));

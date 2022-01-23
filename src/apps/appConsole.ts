@@ -1,27 +1,25 @@
-import { UserRegister, Params } from '../Modules/User/application/UserRegister';
+import { NoteCreator } from '../Modules/Notes/application/NoteCreator';
+import { FakeNoteRepository } from '../Modules/Notes/infrastructure/fakeNoteRepository';
+import { SendWelcomeEmail } from '../Modules/Notifications/application/SendWelcomeEmail';
+import { SendWelcomeEmailOnUserRegistered } from '../Modules/Notifications/application/SendWelcomeEmailOnUserRegistered';
+import { exampleEvent } from '../Modules/Notifications/exampleEvent';
+import { FakeEmailSender } from '../Modules/Notifications/infrastructure/FakeEmailSender';
+import { EventBus } from '../Modules/Shared/domain/EventBus';
+import { InMemorySyncEventBus } from '../Modules/Shared/infrastructure/EventBus/InMemorySyncEventBus';
+import { IncrementTotalNotesCreatedOnNoteCreated } from '../Modules/User/application/TotalNotesCreatedIncrement/IncrementTotalNotesCreatedOnNoteCreated';
+import { TotalNotesCreatedIncrementer } from '../Modules/User/application/TotalNotesCreatedIncrement/TotalNotesCreatedIncrementer';
 import { UserFinderById } from '../Modules/User/application/UserFinderById';
+import { Params, UserRegister } from '../Modules/User/application/UserRegister';
 import { Hashing } from '../Modules/User/domain/Hashing';
-
 import { UserId } from '../Modules/User/domain/UserId';
 import { UserRepository } from '../Modules/User/domain/UserRepository';
 import { BcryptHasher } from '../Modules/User/infrastructure/BcryptHashing';
-
 import { InMemoryUserRepository } from '../Modules/User/infrastructure/persistence/InMemoryUserRepository';
-import { EventBus } from '../Modules/Shared/domain/EventBus';
-import { ConcretEventBus } from '../Modules/Shared/infrastructure/EventBus/ConcretEventBus';
-import { exampleEvent } from '../Modules/Notifications/exampleEvent';
-import { SendWelcomeEmailOnUserRegistered } from '../Modules/Notifications/application/SendWelcomeEmailOnUserRegistered';
-import { SendWelcomeEmail } from '../Modules/Notifications/application/SendWelcomeEmail';
-import { FakeEmailSender } from '../Modules/Notifications/infrastructure/FakeEmailSender';
-import { IncrementTotalNotesCreatedOnNoteCreated } from '../Modules/User/application/TotalNotesCreatedIncrement/IncrementTotalNotesCreatedOnNoteCreated';
-import { TotalNotesCreatedIncrementer } from '../Modules/User/application/TotalNotesCreatedIncrement/TotalNotesCreatedIncrementer';
-import { NoteCreator } from '../Modules/Notes/application/NoteCreator';
-import { FakeNoteRepository } from '../Modules/Notes/infrastructure/fakeNoteRepository';
 
 class start {
   private repositoryInMemory: UserRepository = new InMemoryUserRepository();
   private hasherBcrypt: Hashing = new BcryptHasher();
-  private eventBusFake: EventBus = new ConcretEventBus();
+  private eventBusFake: EventBus = new InMemorySyncEventBus();
   constructor() {
     this.run();
   }
@@ -40,7 +38,7 @@ class start {
     const user: Params = {
       id: idid.value,
       name: 'Alf Ville',
-      email: 'alfreddo444hotmail.com',
+      email: 'alfreddo444@hotmail.com',
       password: '12345678'
     };
 
@@ -57,9 +55,9 @@ class start {
 
     let noteCreator = new NoteCreator(new FakeNoteRepository(), this.eventBusFake);
     await noteCreator.run({ body: 'Esta es la nota', title: 'titulo de nota', userCreator: result.id.value });
+    await noteCreator.run({ body: 'Esta es la nota2', title: 'titulo de nota2', userCreator: result.id.value });
 
     console.log(await finder.run(result.id));
-
     console.log('finalll');
   }
 }

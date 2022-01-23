@@ -1,5 +1,6 @@
+import { Uuid } from '../../Shared/domain/value-object/Uuid';
+import { UserNotExist } from '../domain/Errors';
 import { User } from '../domain/User';
-import { UserId } from '../domain/UserId';
 import { UserRepository } from '../domain/UserRepository';
 
 export class UserFinderById {
@@ -9,11 +10,11 @@ export class UserFinderById {
     this.repository = repository;
   }
 
-  async run(id: UserId): Promise<User> {
+  async run(id: Uuid): Promise<User> {
     const user = await this.repository.search(id);
 
     if (!user) {
-      throw new Error(`this user whit id: ${id.value} not exists`);
+      throw new UserNotExist(id.value);
     }
 
     return user;

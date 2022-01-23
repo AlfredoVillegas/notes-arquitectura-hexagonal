@@ -2,7 +2,7 @@ import { DomainEvent } from '../../domain/DomainEvent';
 import { EventBus } from '../../domain/EventBus';
 import { DomainEventReceiver } from '../../domain/DomainEventReceiver';
 
-export class ConcretEventBus implements EventBus {
+export class InMemorySyncEventBus implements EventBus {
   private receiversMaps: Map<string, DomainEventReceiver<DomainEvent>[]>;
 
   constructor() {
