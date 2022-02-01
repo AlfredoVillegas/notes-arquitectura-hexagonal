@@ -1,3 +1,5 @@
+import { InvalidArgumentError } from '../../Shared/domain/value-object/InvalidArgumentError';
+
 export class NoteTitle {
   readonly value: string;
 
@@ -8,7 +10,7 @@ export class NoteTitle {
 
   private ensureLengthIsLessThan20Characters(noteTitle: string) {
     if (noteTitle.length > 20) {
-      throw new Error('El titulo debe tener menos de 20 caracteres');
+      throw new InvalidArgumentError('El titulo debe tener menos de 20 caracteres');
     }
   }
 }

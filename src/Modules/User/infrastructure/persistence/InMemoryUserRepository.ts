@@ -7,10 +7,6 @@ export class InMemoryUserRepository implements UserRepository {
   private Users: User[] = [];
 
   async save(user: User): Promise<void> {
-    /*const exist =
-    if (await this.search(user.id)) {
-      
-    }*/
     this.Users.push(user);
   }
 
@@ -28,7 +24,11 @@ export class InMemoryUserRepository implements UserRepository {
   async delete(id: UserId): Promise<void> {}
 
   async userEmailExist(email: UserEmail): Promise<boolean> {
-    // Implementar metodo Fake
+    for (let user of this.Users) {
+      if (user.email.value === email.value) {
+        return true;
+      }
+    }
     return false;
   }
 }

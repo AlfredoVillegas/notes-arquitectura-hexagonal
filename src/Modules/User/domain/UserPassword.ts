@@ -1,3 +1,5 @@
+import { InvalidArgumentError } from '../../Shared/domain/value-object/InvalidArgumentError';
+
 export class UserPassword {
   readonly value: string;
 
@@ -14,8 +16,8 @@ export class UserPassword {
   }*/
 
   public validateLengthIsHigher8(value: string) {
-    if (value.length < 8) {
-      throw new Error('password debe contener almenos 8 caracteres');
+    if (value.length < 6) {
+      throw new InvalidArgumentError('password debe contener almenos 6 caracteres');
     }
   }
 }
