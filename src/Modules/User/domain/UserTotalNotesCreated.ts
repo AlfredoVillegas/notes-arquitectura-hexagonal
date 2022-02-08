@@ -6,4 +6,7 @@ export class UserTotalNotesCreated {
   public incrementBy1() {
     this.value++;
   }
+  public toPrimitives() {
+    return this.value;
+  }
 }

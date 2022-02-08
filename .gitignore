@@ -9,3 +9,6 @@ models/
 package-lock.json
 prueba1.ts
 prueba.js
+Db.sql
+pruebaTypeOrm/
+src/apps/appConsole.ts

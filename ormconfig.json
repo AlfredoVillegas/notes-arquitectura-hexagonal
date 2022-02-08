@@ -1,0 +1,6 @@
+{
+    "type": "better-sqlite3",
+    "database": "./Db.sql",
+    "entities" : ["dist/src/Modules/**/infrastructure/persistence/typeorm/*.js"],
+    "synchronize" : true
+ } 

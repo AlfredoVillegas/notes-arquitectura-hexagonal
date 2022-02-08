@@ -1,3 +1,4 @@
+import { createConnection, getCustomRepository } from 'typeorm';
 import { NoteCreator } from '../Modules/Notes/application/NoteCreator';
 import { FakeNoteRepository } from '../Modules/Notes/infrastructure/fakeNoteRepository';
 import { SendWelcomeEmail } from '../Modules/Notifications/application/SendWelcomeEmail';
@@ -15,24 +16,35 @@ import { UserId } from '../Modules/User/domain/UserId';
 import { UserRepository } from '../Modules/User/domain/UserRepository';
 import { BcryptHasher } from '../Modules/User/infrastructure/BcryptHashing';
 import { InMemoryUserRepository } from '../Modules/User/infrastructure/persistence/InMemoryUserRepository';
+import { TypeOrmUserRepository } from '../Modules/User/infrastructure/persistence/TypeOrmUserRepository';
 
 class start {
-  private repositoryInMemory: UserRepository = new InMemoryUserRepository();
+  //private repositoryInMemory: UserRepository  = new InMemoryUserRepository();
+  private ormRepository: UserRepository;
   private hasherBcrypt: Hashing = new BcryptHasher();
   private eventBusFake: EventBus = new InMemorySyncEventBus();
+
   constructor() {
     this.run();
   }
+
+  async init() {
+    console.log(`Initttt: base de datos`);
+    const conex = await createConnection();
+    this.ormRepository = getCustomRepository(TypeOrmUserRepository);
+    return conex;
+  }
   async run() {
+    await this.init();
     // Preparando EventBus en Memoria
 
     this.eventBusFake.addSubscribe(new exampleEvent());
     this.eventBusFake.addSubscribe(new SendWelcomeEmailOnUserRegistered(new SendWelcomeEmail(new FakeEmailSender())));
     this.eventBusFake.addSubscribe(
-      new IncrementTotalNotesCreatedOnNoteCreated(new TotalNotesCreatedIncrementer(this.repositoryInMemory))
+      new IncrementTotalNotesCreatedOnNoteCreated(new TotalNotesCreatedIncrementer(this.ormRepository))
     );
 
-    let register = new UserRegister(this.hasherBcrypt, this.repositoryInMemory, this.eventBusFake);
+    let register = new UserRegister(this.hasherBcrypt, this.ormRepository, this.eventBusFake);
     const idid = UserId.random();
     const id = new UserId(idid.value);
     const user: Params = {
@@ -48,7 +60,7 @@ class start {
     } catch (error) {
       return console.log('Capturando exepcion: ' + error);
     }
-    let finder = new UserFinderById(this.repositoryInMemory);
+    let finder = new UserFinderById(this.ormRepository);
     console.log('buscarrrrrrrr repository');
     let result = await finder.run(id);
     console.log(result);
@@ -62,4 +74,4 @@ class start {
   }
 }
 
-new start();
+const app = new start();
