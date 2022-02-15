@@ -12,10 +12,8 @@ export class UserDeleter {
   }
 
   public async run(id: string): Promise<void> {
-    const user = await this.finder.run(new UserId(id));
+    const user = await this.finder.run(id);
 
     await this.repository.delete(user.id);
-
-    return console.log(`Event User Delete: ${id}`);
   }
 }

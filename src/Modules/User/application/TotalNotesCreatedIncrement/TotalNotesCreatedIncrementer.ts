@@ -12,7 +12,7 @@ export class TotalNotesCreatedIncrementer {
   public async run(id: string) {
     const userId = new UserId(id);
 
-    const user = await this.finder.run(userId);
+    const user = await this.finder.run(userId.toString());
 
     user.totalNotesCreated.incrementBy1();
     console.log('total notes created incrementer. llamado');

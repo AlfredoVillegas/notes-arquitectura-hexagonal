@@ -11,26 +11,25 @@ import { InMemoryUserRepository } from '../../../../src/Modules/User/infrastruct
 
 let userRepository: UserRepository;
 let userRegister: UserRegister;
-
-const eventBus = new InMemorySyncEventBus();
-const hasher = new BcryptHasher();
-
-const user: Params = {
-  id: Uuid.random().value,
-  name: 'Alf Ville',
-  email: 'alfreddo444@hotmail.com',
-  password: '12345678'
-};
+let eventBus: InMemorySyncEventBus;
+let hasher: BcryptHasher;
+let user: Params;
 
 beforeEach(() => {
+  eventBus = new InMemorySyncEventBus();
+  hasher = new BcryptHasher();
   userRepository = new InMemoryUserRepository();
   userRegister = new UserRegister(hasher, userRepository, eventBus);
+
+  user = {
+    id: Uuid.random().value,
+    name: 'Example Name',
+    email: 'example@example.com',
+    password: '12345678'
+  };
 });
 
-afterEach(() => {
-  user.email = 'alfreddo222@hotmail.com';
-  user.password = '12345678';
-});
+afterEach(() => {});
 
 describe('Test of UserRegister', () => {
   /*beforeEach(() => {

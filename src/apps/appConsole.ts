@@ -25,13 +25,14 @@ class start {
   private eventBusFake: EventBus = new InMemorySyncEventBus();
 
   constructor() {
+    this.ormRepository = getCustomRepository(TypeOrmUserRepository);
     this.run();
   }
 
   async init() {
     console.log(`Initttt: base de datos`);
     const conex = await createConnection();
-    this.ormRepository = getCustomRepository(TypeOrmUserRepository);
+
     return conex;
   }
   async run() {
@@ -62,14 +63,14 @@ class start {
     }
     let finder = new UserFinderById(this.ormRepository);
     console.log('buscarrrrrrrr repository');
-    let result = await finder.run(id);
+    let result = await finder.run(id.toString());
     console.log(result);
 
     let noteCreator = new NoteCreator(new FakeNoteRepository(), this.eventBusFake);
     await noteCreator.run({ body: 'Esta es la nota', title: 'titulo de nota', userCreator: result.id.value });
     await noteCreator.run({ body: 'Esta es la nota2', title: 'titulo de nota2', userCreator: result.id.value });
 
-    console.log(await finder.run(result.id));
+    console.log(await finder.run(result.id.toString()));
     console.log('finalll');
   }
 }

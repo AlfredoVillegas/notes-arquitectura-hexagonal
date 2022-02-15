@@ -6,6 +6,6 @@ export class UserEmailAlreadyExists extends Error {
 
 export class UserNotExist extends Error {
   constructor(id: string) {
-    super(`User whit id: ${id} already exists`);
+    super(`User whit id: ${id} not exists`);
   }
 }

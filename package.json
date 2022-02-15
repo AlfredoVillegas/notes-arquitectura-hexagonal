@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm run test:unit",
     "test:unit": "NODE_ENV=test jest",
-    "start": "tsc && nodemon dist/app.js"
+    "start": "tsc && nodemon dist/src/apps/app.js"
   },
   "keywords": [],
   "author": "",
