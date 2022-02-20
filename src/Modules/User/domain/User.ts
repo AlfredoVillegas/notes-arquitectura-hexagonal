@@ -41,4 +41,15 @@ export class User extends Entity {
 
     return user;
   }
+
+  toPrimitives() {
+    return {
+      id: this.id.value,
+      name: this.name.value,
+      email: this.email.value,
+      password: this.password.value,
+      isActive: this.isActive,
+      totalNotesCreated: this.totalNotesCreated.toPrimitives()
+    };
+  }
 }

@@ -12,7 +12,7 @@ export class UserFinderGetCrontroller implements Controller {
       res.status(200).json({
         id: user.id.toString(),
         name: user.name.value,
-        email: user.name.value,
+        email: user.email.value,
         isActive: user.isActive,
         totalNotesCreated: user.totalNotesCreated.toPrimitives()
       });

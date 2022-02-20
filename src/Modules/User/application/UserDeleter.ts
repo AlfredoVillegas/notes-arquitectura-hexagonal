@@ -1,5 +1,3 @@
-import { User } from '../domain/User';
-import { UserId } from '../domain/UserId';
 import { UserRepository } from '../domain/UserRepository';
 import { UserFinderById } from './UserFinderById';
 

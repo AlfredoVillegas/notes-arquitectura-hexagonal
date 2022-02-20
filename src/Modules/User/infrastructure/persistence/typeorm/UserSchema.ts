@@ -23,7 +23,7 @@ export class UserSchema {
   totalNotesCreated: number;
 }
 */
-interface UserSchemaType {
+export interface UserSchemaType {
   email: string;
   id: string;
   name: string;

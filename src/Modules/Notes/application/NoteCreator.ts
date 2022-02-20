@@ -2,6 +2,7 @@ import { EventBus } from '../../Shared/domain/EventBus';
 import { Uuid } from '../../Shared/domain/value-object/Uuid';
 import { Note } from '../domain/Note';
 import { NoteBody } from '../domain/NoteBody';
+import { NoteId } from '../domain/NoteId';
 import { NoteRepository } from '../domain/NoteRepository';
 import { NoteTitle } from '../domain/NoteTitle';
 
@@ -20,9 +21,9 @@ export class NoteCreator {
     this.eventBus = eventBus;
   }
 
-  async run({ body, title, userCreator }: Params): Promise<void> {
-    const userCreatorId = new Uuid(userCreator);
-    const note = Note.create(userCreatorId, new NoteBody(body), new NoteTitle(title));
+  async run(id: string, body: string, title: string, creatorUserId: string): Promise<void> {
+    const creatorUser = new Uuid(creatorUserId);
+    const note = Note.create(new NoteId(id), creatorUser, new NoteBody(body), new NoteTitle(title));
 
     await this.repository.save(note);
     console.log('evento pulicado. nota creada');

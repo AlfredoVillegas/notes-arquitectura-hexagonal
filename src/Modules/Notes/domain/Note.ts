@@ -19,11 +19,10 @@ export class Note extends Entity {
     this.title = title;
   }
 
-  static create(userCreator: Uuid, body: NoteBody, title: NoteTitle) {
-    const noteId = Uuid.random();
-    const note = new Note(noteId, userCreator, body, title);
+  static create(id: NoteId, userCreator: Uuid, body: NoteBody, title: NoteTitle): Note {
+    const note = new Note(id, userCreator, body, title);
 
-    note.addDomainEvent(new NoteCreatedDomainEvent(noteId.value, title.value, userCreator.value));
+    note.addDomainEvent(new NoteCreatedDomainEvent(id.value, title.value, userCreator.value));
 
     return note;
   }

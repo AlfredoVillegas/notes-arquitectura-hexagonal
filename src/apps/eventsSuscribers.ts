@@ -21,4 +21,6 @@ export function registerSubscribers(eventBus: EventBus) {
   const sendWelcomneEmail = new SendWelcomeEmail(new FakeEmailSender());
   const sendWelcomeEmailSubscriber = new SendWelcomeEmailOnUserRegistered(sendWelcomneEmail);
   eventBus.addSubscribe(sendWelcomeEmailSubscriber);
+
+  // subscribers en notes
 }

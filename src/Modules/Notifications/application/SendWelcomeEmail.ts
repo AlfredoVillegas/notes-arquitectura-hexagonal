@@ -13,7 +13,7 @@ export class SendWelcomeEmail {
       emailTo: new EmailAddres(emailTo),
       emailFrom: new EmailAddres(emailFrom),
       subject: 'Welcome',
-      body: `hello ${userName}, Welcome to whis word , next : ...`
+      body: `hello ${userName}, Welcome to this word , next : ...`
     };
     const email = new Email(params.emailTo, params.emailFrom, params.subject, params.body);
 

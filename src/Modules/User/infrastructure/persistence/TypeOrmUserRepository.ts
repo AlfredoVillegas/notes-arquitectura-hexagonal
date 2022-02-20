@@ -6,32 +6,28 @@ import { UserName } from '../../domain/UserName';
 import { UserPassword } from '../../domain/UserPassword';
 import { UserRepository } from '../../domain/UserRepository';
 import { UserTotalNotesCreated } from '../../domain/UserTotalNotesCreated';
-import { UserSchema as userSchemaOrm } from './typeorm/UserSchema';
+import { UserSchema, UserSchema as userSchemaOrm, UserSchemaType } from './typeorm/UserSchema';
 
 @EntityRepository()
 export class TypeOrmUserRepository implements UserRepository {
   constructor(private manager: EntityManager) {}
 
-  save(user: User): Promise<void> {
-    /*const userSchema = new userSchema();
-    userSchema.email = user.email.value;
-    userSchema.id = user.id.value;
-    userSchema.name = user.name.value;
-    userSchema.password = user.password.value;
-    userSchema.isActive = user.isActive;
-    userSchema.totalNotesCreated = user.totalNotesCreated.toPrimitives();
-   */
-    const userSchema = {
+  async save(user: User): Promise<void> {
+    const userSchema = user.toPrimitives();
+
+    /*const userSchema = {
       email: user.email.value,
       id: user.id.value,
       name: user.name.value,
       password: user.password.value,
       isActive: user.isActive,
       totalNotesCreated: user.totalNotesCreated.toPrimitives()
-    };
-    return this.persist(userSchema);
+    };*/
+
+    //return this.persist(user.toPrimitives());
+    await this.manager.save(userSchemaOrm, userSchema);
   }
-  private async persist(user: any) {
+  private async persist(user: UserSchemaType) {
     await this.manager.save(userSchemaOrm, user);
   }
 
