@@ -4,7 +4,6 @@ export class UserPassword {
   readonly value: string;
 
   constructor(password: string) {
-    //this.validateLengthIsHigher8(password);
     this.value = password;
   }
 

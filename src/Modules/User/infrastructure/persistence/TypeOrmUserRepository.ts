@@ -6,27 +6,18 @@ import { UserName } from '../../domain/UserName';
 import { UserPassword } from '../../domain/UserPassword';
 import { UserRepository } from '../../domain/UserRepository';
 import { UserTotalNotesCreated } from '../../domain/UserTotalNotesCreated';
-import { UserSchema, UserSchema as userSchemaOrm, UserSchemaType } from './typeorm/UserSchema';
+import { UserSchema as userSchemaOrm, UserSchemaType } from './typeorm/UserSchema';
 
 @EntityRepository()
 export class TypeOrmUserRepository implements UserRepository {
   constructor(private manager: EntityManager) {}
 
   async save(user: User): Promise<void> {
-    const userSchema = user.toPrimitives();
+    const userSchema: UserSchemaType = user.toPrimitives();
 
-    /*const userSchema = {
-      email: user.email.value,
-      id: user.id.value,
-      name: user.name.value,
-      password: user.password.value,
-      isActive: user.isActive,
-      totalNotesCreated: user.totalNotesCreated.toPrimitives()
-    };*/
-
-    //return this.persist(user.toPrimitives());
     await this.manager.save(userSchemaOrm, userSchema);
   }
+
   private async persist(user: UserSchemaType) {
     await this.manager.save(userSchemaOrm, user);
   }
@@ -37,6 +28,7 @@ export class TypeOrmUserRepository implements UserRepository {
     if (!userSchema) {
       return null;
     }
+
     const user = new User(
       new UserId(userSchema.id),
       new UserName(userSchema.name),

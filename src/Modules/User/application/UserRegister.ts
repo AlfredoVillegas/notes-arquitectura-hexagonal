@@ -1,4 +1,5 @@
 import { EventBus } from '../../Shared/domain/EventBus';
+import { InvalidArgumentError } from '../../Shared/domain/value-object/InvalidArgumentError';
 import { UserEmailAlreadyExists } from '../domain/Errors';
 import { Hashing } from '../domain/Hashing';
 import { HashUserPassword } from '../domain/HashUserPassword';
@@ -21,9 +22,9 @@ export class UserRegister {
   private hashUserPasswordService: HashUserPassword;
   private eventBus: EventBus;
 
-  constructor(hashing: Hashing, repository: UserRepository, eventBus: EventBus) {
+  constructor(hasher: Hashing, repository: UserRepository, eventBus: EventBus) {
     this.repository = repository;
-    this.hashUserPasswordService = new HashUserPassword(hashing);
+    this.hashUserPasswordService = new HashUserPassword(hasher);
     this.eventBus = eventBus;
   }
 

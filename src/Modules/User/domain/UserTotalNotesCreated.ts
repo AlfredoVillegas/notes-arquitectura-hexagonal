@@ -3,10 +3,10 @@ export class UserTotalNotesCreated {
   constructor(notesCreated: number) {
     this.value = notesCreated;
   }
-  public incrementBy1() {
+  public incrementBy1(): void {
     this.value++;
   }
-  public toPrimitives() {
+  public toPrimitives(): number {
     return this.value;
   }
 }

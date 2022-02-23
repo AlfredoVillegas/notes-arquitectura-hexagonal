@@ -7,12 +7,12 @@ export class NotePutController implements Controller {
 
   async run(req: Request, res: Response): Promise<void> {
     try {
-      const { body, title, creatorUserId } = req.body;
-      const { id } = req.params;
+      const { body, title } = req.body;
+      const { id, userId } = req.params;
 
-      await this.noteCreator.run(id, body, title, creatorUserId);
+      await this.noteCreator.run(id, body, title, userId);
 
-      res.status(201).json({ body, title, creatorUserId });
+      res.status(201).json({ id, body, title, userId });
     } catch (err: any) {
       res.status(400).json({ errorMessage: err.message });
     }

@@ -8,8 +8,6 @@ import { TotalNotesCreatedIncrementer } from '../Modules/User/application/TotalN
 import { TypeOrmUserRepository } from '../Modules/User/infrastructure/persistence/TypeOrmUserRepository';
 
 export function registerSubscribers(eventBus: EventBus) {
-  //const eventBus = new InMemorySyncEventBus();
-
   // Subscriptores en user
   const userRepository = getCustomRepository(TypeOrmUserRepository);
   const noteUserCreatedSuscriber = new IncrementTotalNotesCreatedOnNoteCreated(

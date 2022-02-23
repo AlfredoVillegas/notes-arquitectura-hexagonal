@@ -1,23 +1,23 @@
 import { InvalidArgumentError } from '../../../../src/Modules/Shared/domain/value-object/InvalidArgumentError';
 import { Uuid } from '../../../../src/Modules/Shared/domain/value-object/Uuid';
-import { InMemorySyncEventBus } from '../../../../src/Modules/Shared/infrastructure/EventBus/InMemorySyncEventBus';
 import { Params, UserRegister } from '../../../../src/Modules/User/application/UserRegister';
 import { UserEmailAlreadyExists } from '../../../../src/Modules/User/domain/Errors';
 import { User } from '../../../../src/Modules/User/domain/User';
 import { UserId } from '../../../../src/Modules/User/domain/UserId';
 import { UserRepository } from '../../../../src/Modules/User/domain/UserRepository';
-import { BcryptHasher } from '../../../../src/Modules/User/infrastructure/BcryptHashing';
 import { InMemoryUserRepository } from '../../../../src/Modules/User/infrastructure/persistence/InMemoryUserRepository';
+import { MockEventBus } from '../__mocks__/MockEventBus';
+import { MockHasher } from '../__mocks__/MockHasher';
 
 let userRepository: UserRepository;
 let userRegister: UserRegister;
-let eventBus: InMemorySyncEventBus;
-let hasher: BcryptHasher;
+let eventBus: MockEventBus;
+let hasher: MockHasher;
 let user: Params;
 
 beforeEach(() => {
-  eventBus = new InMemorySyncEventBus();
-  hasher = new BcryptHasher();
+  eventBus = new MockEventBus();
+  hasher = new MockHasher();
   userRepository = new InMemoryUserRepository();
   userRegister = new UserRegister(hasher, userRepository, eventBus);
 
@@ -29,21 +29,22 @@ beforeEach(() => {
   };
 });
 
-afterEach(() => {});
+//afterEach(() => {});
 
 describe('Test of UserRegister', () => {
-  /*beforeEach(() => {
-
-  });*/
-
-  test('should create a valid user ', async () => {
+  test('should create a valid user', async () => {
     await userRegister.run(user);
+
     const userExist = await userRepository.search(new UserId(user.id));
 
-    if (userExist) {
-      expect(userExist).toBeInstanceOf(User);
-      expect(userExist.id.value).toEqual(user.id);
+    if (!userExist) {
+      throw new Error('error in test');
     }
+
+    expect(userExist).toBeInstanceOf(User);
+    expect(userExist.id.value).toEqual(user.id);
+    expect(eventBus.getCallsToPublishEvent()).toEqual(1);
+    expect(hasher.getCallsToHashPassword()).toEqual(1);
   });
 
   test('should throw an error when the user email already exists', async () => {
