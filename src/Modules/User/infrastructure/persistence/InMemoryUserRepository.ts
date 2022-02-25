@@ -21,7 +21,9 @@ export class InMemoryUserRepository implements UserRepository {
     return userFind;
   }
 
-  async delete(id: UserId): Promise<void> {}
+  async delete(id: UserId): Promise<void> {
+    this.Users.pop();
+  }
 
   async userEmailExist(email: UserEmail): Promise<boolean> {
     for (let user of this.Users) {
