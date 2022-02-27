@@ -1,4 +1,4 @@
-import { NextFunction, request, Request, response, Response, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { getConnection } from 'typeorm';
 import { EventBus } from '../../Modules/Shared/domain/EventBus';
 import { UserDeleter } from '../../Modules/User/application/UserDeleter';

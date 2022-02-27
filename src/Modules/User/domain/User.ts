@@ -1,13 +1,13 @@
 import { Entity } from '../../Shared/domain/Entity';
-import { Uuid } from '../../Shared/domain/value-object/Uuid';
 import { UserEmail } from './UserEmail';
+import { UserId } from './UserId';
 import { UserName } from './UserName';
-import { UserTotalNotesCreated } from './UserTotalNotesCreated';
 import { UserPassword } from './UserPassword';
 import { UserRegisterDomainEvent } from './UserRegisterDomainEvent';
+import { UserTotalNotesCreated } from './UserTotalNotesCreated';
 
 export class User extends Entity {
-  readonly id: Uuid;
+  readonly id: UserId;
   readonly name: UserName;
   readonly email: UserEmail;
   readonly password: UserPassword;
@@ -15,7 +15,7 @@ export class User extends Entity {
   private totalNotesCreated: UserTotalNotesCreated;
 
   constructor(
-    id: Uuid,
+    id: UserId,
     name: UserName,
     email: UserEmail,
     password: UserPassword,
@@ -31,7 +31,7 @@ export class User extends Entity {
     this.totalNotesCreated = totalNotesCreated;
   }
 
-  static create(id: Uuid, name: UserName, email: UserEmail, password: UserPassword): User {
+  static create(id: UserId, name: UserName, email: UserEmail, password: UserPassword): User {
     const isActive = false;
     const notesCreated = new UserTotalNotesCreated(0);
 

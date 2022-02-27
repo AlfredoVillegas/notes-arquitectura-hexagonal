@@ -7,14 +7,14 @@ import { NoteTitle } from './NoteTitle';
 
 export class Note extends Entity {
   readonly id: NoteId;
-  readonly userCreatorId: Uuid;
+  readonly creatorUserId: Uuid;
   private body: NoteBody;
   private title: NoteTitle;
 
   constructor(id: NoteId, userCreator: Uuid, body: NoteBody, title: NoteTitle) {
     super();
     this.id = id;
-    this.userCreatorId = userCreator;
+    this.creatorUserId = userCreator;
     this.body = body;
     this.title = title;
   }
@@ -27,10 +27,17 @@ export class Note extends Entity {
     return note;
   }
 
-  public editBody(newBody: NoteBody) {
-    this.body = newBody;
+  public update(bodyNew: NoteBody, titleNew: NoteTitle) {
+    this.body = bodyNew;
+    this.title = titleNew;
   }
-  public editTitle(newTitle: NoteTitle) {
-    this.title = newTitle;
+
+  toPrimitives() {
+    return {
+      id: this.id.value,
+      creatorUserId: this.creatorUserId.value,
+      title: this.title.value,
+      body: this.body.value
+    };
   }
 }
