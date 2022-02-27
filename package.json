@@ -3,13 +3,18 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+ 
   "scripts": {
     "test": "npm run test:unit",
-    "test:unit": "NODE_ENV=test jest",
-    "test:coverage" :  "NODE_ENV=test jest --coverage",
-    "start": "tsc && nodemon dist/src/apps/app.js",
-    "dev" : "NODE_ENV=dev ts-node ./src/apps/app.ts"
+    "test:unit": "jest",
+    "test:coverage" :  "jest --coverage",
+    "start": "node dist/src/apps/app.js",
+    "dev" : "ts-node ./src/apps/app.ts",
+    "build": "npm run build:clean && npm run build:tsc",
+    "build:tsc": "tsc -p tsconfig.prod.json",
+    "build:clean": "rm -r dist; exit 0"
   },
+  
   "keywords": [],
   "author": "",
   "license": "ISC",

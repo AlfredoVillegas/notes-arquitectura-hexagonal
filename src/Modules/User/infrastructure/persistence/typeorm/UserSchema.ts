@@ -1,28 +1,5 @@
-import { Entity, Column, PrimaryColumn, EntitySchema } from 'typeorm';
-import { User } from '../../../domain/User';
+import { EntitySchema } from 'typeorm';
 
-/*
-@Entity()
-export class UserSchema {
-  @PrimaryColumn()
-  id: string;
-
-  @Column()
-  name: string;
-
-  @Column()
-  email: string;
-
-  @Column()
-  password: string;
-
-  @Column()
-  isActive: boolean;
-
-  @Column()
-  totalNotesCreated: number;
-}
-*/
 export interface UserSchemaType {
   email: string;
   id: string;

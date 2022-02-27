@@ -1,5 +1,4 @@
 import { EventBus } from '../../Shared/domain/EventBus';
-import { InvalidArgumentError } from '../../Shared/domain/value-object/InvalidArgumentError';
 import { UserEmailAlreadyExists } from '../domain/Errors';
 import { Hashing } from '../domain/Hashing';
 import { HashUserPassword } from '../domain/HashUserPassword';

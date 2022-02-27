@@ -10,7 +10,7 @@ export function verifyUserIsAuthenticated(req: Request, res: Response, next: Nex
     const decodedToken: any = token ? jwt.verify(token, process.env.SECRET || 'Dev') : null;
 
     if (!token || !decodedToken.id) {
-      return res.status(401).json({ error: 'token missing or invalid' });
+      return res.status(401).json({ errorMessage: 'token missing or invalid' });
     }
 
     console.log(`userId: ${decodedToken.id}`);
@@ -19,6 +19,6 @@ export function verifyUserIsAuthenticated(req: Request, res: Response, next: Nex
 
     next();
   } catch (err: any) {
-    res.status(500).json({ errorMessage: err.errorMessage });
+    res.status(401).json({ errorMessage: err });
   }
 }

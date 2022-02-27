@@ -1,15 +1,13 @@
-import { NoteCreatedDomainEvent } from '../../Notes/domain/NoteCreatedDomainEvent';
-import { DomainEventNameType } from '../../Shared/domain/DomainEventNameType';
 import { DomainEventReceiver } from '../../Shared/domain/DomainEventReceiver';
-import { UserRegisterDomainEvent } from '../../User/domain/UserRegisterDomainEvent';
 import { SendWelcomeEmail } from './SendWelcomeEmail';
+import { UserRegisterDomainEvent } from './UserRegisterDomainEvent';
 
 export class SendWelcomeEmailOnUserRegistered implements DomainEventReceiver<UserRegisterDomainEvent> {
   constructor(private sendWelcomeEmail: SendWelcomeEmail) {}
   receive(domainEvent: UserRegisterDomainEvent): void {
     this.sendWelcomeEmail.run(domainEvent.email, 'example@empresa.com', domainEvent.userName);
   }
-  susbcribedTo(): DomainEventNameType[] {
+  susbcribedTo(): string[] {
     return [UserRegisterDomainEvent.EVENT_NAME];
   }
 }

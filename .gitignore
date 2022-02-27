@@ -2,14 +2,6 @@ node_modules/
 dist/
 .tmp
 coverage/
-app.ts
 logs/
-controller/
-routes/
-models/
 package-lock.json
-prueba1.ts
-prueba.js
 Db.sql
-pruebaTypeOrm/
-src/apps/appConsole.ts
