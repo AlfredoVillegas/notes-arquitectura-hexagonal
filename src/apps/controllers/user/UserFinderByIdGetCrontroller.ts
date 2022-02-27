@@ -9,13 +9,7 @@ export class UserFinderGetCrontroller implements Controller {
       const { id } = req.params;
       const user = await this.userFinder.run(id);
 
-      res.status(200).json({
-        id: user.id.toString(),
-        name: user.name.value,
-        email: user.email.value,
-        isActive: user.isActive,
-        totalNotesCreated: user.totalNotesCreated.toPrimitives()
-      });
+      res.status(200).json(user.toPrimitives());
     } catch (err: any) {
       res.status(404).json({ errorMessage: err.message });
     }

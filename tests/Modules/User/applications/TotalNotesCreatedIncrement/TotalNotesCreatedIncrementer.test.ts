@@ -20,6 +20,6 @@ describe('Test of TotalNotesCreatedIncremeter', () => {
     const idFromUserDataTest = new UserId(userRepositoryMock.userDataPlainForTest.id);
     const userInDB = await userRepositoryMock.search(idFromUserDataTest);
 
-    expect(userInDB?.totalNotesCreated.toPrimitives()).toBe(1);
+    expect(userInDB?.toPrimitives().totalNotesCreated).toBe(1);
   });
 });

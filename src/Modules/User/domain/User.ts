@@ -12,7 +12,7 @@ export class User extends Entity {
   readonly email: UserEmail;
   readonly password: UserPassword;
   readonly isActive: boolean;
-  readonly totalNotesCreated: UserTotalNotesCreated;
+  private totalNotesCreated: UserTotalNotesCreated;
 
   constructor(
     id: Uuid,
@@ -42,6 +42,10 @@ export class User extends Entity {
     return user;
   }
 
+  incrementTotalNotesCreatedBy1(): void {
+    this.totalNotesCreated = this.totalNotesCreated.incrementBy1();
+  }
+
   toPrimitives() {
     return {
       id: this.id.value,
@@ -49,7 +53,7 @@ export class User extends Entity {
       email: this.email.value,
       password: this.password.value,
       isActive: this.isActive,
-      totalNotesCreated: this.totalNotesCreated.toPrimitives()
+      totalNotesCreated: this.totalNotesCreated.value
     };
   }
 }

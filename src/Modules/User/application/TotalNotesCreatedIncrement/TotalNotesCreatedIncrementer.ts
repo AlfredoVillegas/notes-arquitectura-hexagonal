@@ -14,7 +14,8 @@ export class TotalNotesCreatedIncrementer {
 
     const user = await this.finder.run(userId.toString());
 
-    user.totalNotesCreated.incrementBy1();
+    user.incrementTotalNotesCreatedBy1();
+
     console.log('total notes created incrementer. llamado');
     await this.repository.save(user);
   }
