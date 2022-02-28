@@ -1,3 +1,5 @@
+import { InvalidArgumentError } from '../../Shared/domain/value-object/InvalidArgumentError';
+
 export class NoteBody {
   readonly value: string;
   constructor(noteBody: string) {
@@ -6,7 +8,7 @@ export class NoteBody {
   }
   private ensureLengthIsHigherThan1Characters(noteBody: string) {
     if (noteBody.length < 1) {
-      throw new Error('No se Premiten Notas Vacias');
+      throw new InvalidArgumentError('No se Premiten Notas Vacias');
     }
   }
 }

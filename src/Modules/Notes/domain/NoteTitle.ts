@@ -10,7 +10,7 @@ export class NoteTitle {
 
   private ensureLengthIsLessThan20Characters(noteTitle: string) {
     if (noteTitle.length > 20) {
-      throw new InvalidArgumentError('El titulo debe tener menos de 20 caracteres');
+      throw new InvalidArgumentError('El titulo debe tener maximo 20 caracteres');
     }
   }
 }

@@ -21,7 +21,17 @@ export class NoteCreator {
     this.eventBus = eventBus;
   }
 
-  async run(id: string, body: string, title: string, creatorUserId: string): Promise<void> {
+  async run({
+    id,
+    body,
+    title,
+    creatorUserId
+  }: {
+    id: string;
+    body: string;
+    title: string;
+    creatorUserId: string;
+  }): Promise<void> {
     const creatorUser = new Uuid(creatorUserId);
     const note = Note.create(new NoteId(id), creatorUser, new NoteBody(body), new NoteTitle(title));
 
