@@ -47,9 +47,6 @@ export class TypeOrmUserRepository implements UserRepository {
 
   async userEmailExist(email: UserEmail): Promise<boolean> {
     const user = await this.manager.findOne(userSchemaOrm, { email: email.value });
-    if (!user) {
-      return false;
-    }
-    return true;
+    return (user !== undefined)
   }
 }
